@@ -1,11 +1,10 @@
 # example of program that calculates the number of tweets cleaned
-import sys
 import json
 import re
 from time import strftime
 from datetime import datetime
 
-class tweet:
+class Tweet:
     def __init__(self):
         self._tweet = None 
 
@@ -44,6 +43,30 @@ class tweet:
         else:
             raise ReferenceError("Tweet is not initialized")
 
+    def extract_tags(self, tags_array):
+        result = []
+
+        for tag in tags_array:
+            if "text" in tag.keys():
+                tag_clean = self.remove_non_ascii2(tag["text"]).strip()
+                if len(tag_clean) != 0:
+                    result.append(tag["text"].lower())
+
+        return result
+
+    def get_hashtags(self):
+        if (self._tweet != None):
+            if "entities" in self._tweet.keys():
+                entities = self._tweet["entities"]
+                if "hashtags" in entities.keys():
+                    return self.extract_tags(entities["hashtags"])
+                else:
+                    return []
+            else:
+                return []
+        else:
+            raise ReferenceError("Tweet is not initialized")
+
     def is_tweet_ascii(self):
         text = self.get_text()
 
@@ -68,55 +91,3 @@ class tweet:
         
     def __repr__(self):
          return self.to_str()
-
-class tweet_cleaner:
-    def __init__(self):
-        self.input_file = None
-        self.output_file = None
-        self.num_unicode_tweets = 0
-
-    def __init__(self, input_file, output_file):
-        self.input_file = input_file
-        self.output_file = output_file
-        self.num_unicode_tweets = 0
-
-    def clean_tweets(self):
-        self.num_unicode_tweets = 0
-
-        try:
-            clean_fh = open(self.output_file, 'w')
-        except IOError:
-            print 'Cannot open', self.output_file
-
-        try:
-            tweet_fh = open(self.input_file)
-        except IOError:
-            print 'Cannot open', self.input_file
-        else:
-            tweets = tweet_fh.readlines()
-
-            for tweet_line in tweets:
-                tweet_dec = json.loads(tweet_line)
-
-                if "limit" in tweet_dec.keys():
-                    continue
-
-                cur_tweet = tweet(tweet_dec)
-                clean_fh.write(cur_tweet.to_str() + "\n")
-
-                if not cur_tweet.is_tweet_ascii():
-                    self.num_unicode_tweets += 1
-
-            clean_fh.write("\n%d tweets contained unicode" % (self.num_unicode_tweets))
-
-            tweet_fh.close()
-
-        if not clean_fh.closed:
-            clean_fh.close()
-
-def main():
-    cleaner = tweet_cleaner(sys.argv[1], sys.argv[2])
-    cleaner.clean_tweets()
-
-if __name__ == '__main__':
-    main()

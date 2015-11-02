@@ -4,7 +4,9 @@ class tweet_vertex:
         self.connected_to = {}
 
     def add_neighbor(self, nbr, timestamp):
-        print self.id, nbr, timestamp
+#        print "add_neighbor"
+#        print self.id, nbr, timestamp, self.connected_to.keys()
+#        print "-------"
         if nbr in self.connected_to.keys():
             self.connected_to[nbr].append(timestamp);
         else:
@@ -20,7 +22,7 @@ class tweet_vertex:
         return len(self.connected_to.keys())
 
     def __repr__(self):
-        return self.id + ' connected to: ' + str([x.id for x in self.connected_to])
+        return 'id = \"' + self.id + '\" connected to: ' + str([x.id for x in self.connected_to.keys()])
 
 
 class tweet_graph:
@@ -29,9 +31,15 @@ class tweet_graph:
         self.num_verts = 0
 
     def add_vertex(self, key):
-        self.num_verts += 1
-        new_vertex = tweet_vertex(key)
-        self.verts[key] = new_vertex
+        new_vertext = None
+
+        if key not in self.verts:
+            self.num_verts += 1
+            new_vertex = tweet_vertex(key)
+            self.verts[key] = new_vertex
+        else:
+            new_vertex = self.verts[key]
+
         return new_vertex
 
     def get_vertex(self, vertex):
@@ -44,12 +52,12 @@ class tweet_graph:
         return key in self.verts
 
     def add_edge(self, source, sink, timestamp):
-        if source not in self.verts:
-            nv = self.add_vertex(source)
-        if sink not in self.verts:
-            nv = self.add_vertex(sink)
-        self.verts[source].add_neighbor(self.verts[sink], timestamp)
-        self.verts[sink].add_neighbor(self.verts[source], timestamp)
+        if source.id not in self.verts:
+            nv = self.add_vertex(source.id)
+        if sink.id not in self.verts:
+            nv = self.add_vertex(sink.id)
+        self.verts[source.id].add_neighbor(self.verts[sink.id], timestamp)
+        self.verts[sink.id].add_neighbor(self.verts[source.id], timestamp)
 
     def get_vertices(self):
         return self.verts.keys()
@@ -61,7 +69,7 @@ class tweet_graph:
         for vertex in vertices: 
             degree += self.verts[vertex].get_degree()
 
-        return degree * 1.0 / len(vertices)
+        return "%0.2f" % (degree * 1.0 / len(vertices))
 
     def __iter__(self):
         return iter(self.verts.values())

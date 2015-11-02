@@ -23,20 +23,25 @@ def average_degree(tweet_file):
         cur_tweet = Tweet(tweet_dec)
         hashtags = cur_tweet.get_hashtags()
 
-        print hashtags
+#        print hashtags
 
         if (len(hashtags) >= 2):
             for hashtag in hashtags:
+#                print "Adding hashtag " + hashtag
                 graph.add_vertex(hashtag)
 
             edges = pairwise(hashtags)
 
             for edge in edges:
-                graph.add_edge(edge[0], edge[1], cur_tweet.get_timestamp)
+#                print "adding edge " + str(edge)
 
-            print "New graph looks like:"
-            graph.print_graph()
-            print "\n"
+                graph.add_edge(graph.get_vertex(edge[0]), 
+                               graph.get_vertex(edge[1]), 
+                               cur_tweet.get_timestamp())
+
+#            print "New graph looks like:"
+#            graph.print_graph()
+#            print "\n"
 
     print graph.average_degree()
 

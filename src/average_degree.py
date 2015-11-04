@@ -3,6 +3,9 @@ import sys
 import json
 from tweet import Tweet
 from tweet_graph import tweet_vertex, tweet_graph
+from datetime import datetime
+
+format = "%a %b %d %H:%M:%S +0000 %Y"
 
 def pairwise(hashtags):
     n = len(hashtags)
@@ -23,27 +26,26 @@ def average_degree(tweet_file):
         cur_tweet = Tweet(tweet_dec)
         hashtags = cur_tweet.get_hashtags()
 
-#        print hashtags
+        cur_ts = datetime.strptime(cur_tweet.get_timestamp(), format)
 
         if (len(hashtags) >= 2):
             for hashtag in hashtags:
-#                print "Adding hashtag " + hashtag
-                graph.add_vertex(hashtag)
+                graph.add_vertex(hashtag, cur_ts)
 
             edges = pairwise(hashtags)
 
             for edge in edges:
-#                print "adding edge " + str(edge)
-
                 graph.add_edge(graph.get_vertex(edge[0]), 
                                graph.get_vertex(edge[1]), 
-                               cur_tweet.get_timestamp())
+                               cur_ts)
 
-#            print "New graph looks like:"
-#            graph.print_graph()
-#            print "\n"
+        else:
+            graph.evict(cur_ts)
 
-    print graph.average_degree()
+#        print "New graph looks like:"
+#        graph.print_graph()
+#        print "\n"
+        print graph.average_degree()
 
     tweet_fh.close()
 

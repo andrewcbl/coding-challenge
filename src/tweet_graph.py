@@ -1,5 +1,26 @@
+"""
+    This file contains two classes:
+    - Class to represent graph vertex
+    - Class to represent graph
+    
+    For the hashtag degree problem, it uses list representaion of graph
+"""
+
 from datetime import datetime
 from datetime import timedelta
+
+"""
+    tweet_vertex class preresents the hashtag node
+    It tracks the nodes connected as well as the timestamps when 
+    each connection is established
+
+    It uses dictionary to track the neighbors. The key of the dictionary
+    is the neighbor's node name, and the value is the list of timestamps
+    when the neighbors are added
+
+    The class also support neighbor eviction. The eviction is based on
+    the timestamp when evict operation is issued.
+"""
 
 class tweet_vertex:
     def __init__(self, key):
@@ -7,6 +28,10 @@ class tweet_vertex:
         self.connected_to = {}
         self.window = timedelta(seconds=60)
 
+    """
+        Add neighbor to the current vertex's neighbor list. Also record
+        the timestamp when it is added
+    """
     def add_neighbor(self, nbr, timestamp):
         if nbr in self.connected_to.keys():
             self.connected_to[nbr].append(timestamp);
@@ -22,12 +47,20 @@ class tweet_vertex:
     def get_degree(self):
         return len(self.connected_to.keys())
 
+    """
+        If the current vertex has no connection. The wrapper class would
+        need to remove the vertex from its list
+    """
     def evict(self, timestamp):
         if self.get_degree() <= 0:
             return
 
         nts = timestamp
 
+        # Looping through all the neighbors. 
+        # For each neighbor, generate the list of timestamps that is 60s away
+        # If some neighbor contains only timestamp that is more than 60s ways
+        # the neighbor would need to be removed
         for node in self.connected_to.keys():
             all_ts = self.connected_to[node]
             all_ts = [ets for ets in all_ts if (nts - ets) <= self.window]
@@ -48,13 +81,25 @@ class tweet_vertex:
 
         return result
 
+"""
+    This class represent tweet hashtag graph
+    - It supports vertex/edge add/removal
+    - It keeps track of the timestamp when each vertex is added 
+    - It supports calculation of average degree
+"""
 class tweet_graph:
     def __init__(self):
-        self.verts = {}
-        self.timestamps = {}
+        self.verts = {}         # dictionary of all vertexes
+        self.timestamps = {}    # dictionary of all timestamps
+                                # This is the "reverse indexing" of verts
+                                # to speed up searching for nodes which
+                                # expires when eviction happens
         self.num_verts = 0
         self.window = timedelta(seconds=60)
 
+    """
+        Add vertex to both verts and timestamps dictionaries
+    """
     def add_vertex(self, key, timestamp):
         self.evict(timestamp)
 
@@ -80,6 +125,13 @@ class tweet_graph:
         else:
             return None
 
+    """
+        process of eviction:
+        - Get the list of nodes that needs eviction from timestamps dictionary
+        - For each node, evict it's own neighbors
+        - If the node contains no neighbor after eviction, remove the node
+        - Remove the expired timestamp from the timestamps dictionary
+    """
     def evict(self, timestamp):
         nts = timestamp
         evict_ts = [ets for ets in self.timestamps.keys() if (nts - ets) > self.window]

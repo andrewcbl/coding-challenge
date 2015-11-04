@@ -1,4 +1,8 @@
-# example of program that calculates the average degree of hashtags
+"""
+    This file implements the hashtag degree calculation feature
+    It is wrapper over tweet_graph class 
+"""
+
 import sys
 import json
 
@@ -8,15 +12,31 @@ from tweet import Tweet
 from tweet_graph import tweet_vertex, tweet_graph
 
 class hashtag_analyzer:
+    def __init__(self):
+        self.format = "%a %b %d %H:%M:%S +0000 %Y"
+        self.input_file  = None
+        self.output_file = None
+        
     def __init__(self, input_file, output_file):
         self.format = "%a %b %d %H:%M:%S +0000 %Y"
         self.input_file  = input_file
         self.output_file = output_file
 
+    """
+        Generate pairwise list of tuples from the list of hashtags
+    """
     def pairwise(self, hashtags):
         n = len(hashtags)
         return [(hashtags[i], hashtags[j]) for i in range(n) for j in range(n) if i < j]
 
+    """
+        Steps of calculating average degree:
+        1. Read the tweet file and parse with json library
+        2. Extract hashtags from the tweet
+        3. Generate pairwise tuples from the hashtag list
+        4. Build the hashtag graph with the hashtags
+        5. Calculate the rolling average degree 
+    """
     def average_degree(self):
         try:
             stats_fh = open(self.output_file, 'w')

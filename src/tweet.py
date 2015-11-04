@@ -1,4 +1,9 @@
-# example of program that calculates the number of tweets cleaned
+# -*- coding: utf-8 -*-
+"""
+Basic class to parse tweet. 
+Supports tweet text cleaning, hashtag extraction functions
+"""
+
 import json
 import re
 from time import strftime
@@ -11,6 +16,9 @@ class Tweet:
     def __init__(self, t):
         self._tweet = t
 
+    """
+        Returns original (uncleaned) text in the tweet
+    """
     def get_text(self):
         if self._tweet != None:
             if "text" in self._tweet.keys():
@@ -20,6 +28,10 @@ class Tweet:
         else:
             raise ReferenceError("Tweet is not initialized")
 
+    """
+        Returns cleaned text in the tweet
+        Text cleaning mechanism: Remove non ascii characters from the text 
+    """
     def get_clean_text(self):
         try:
             text = self.get_text()
@@ -28,8 +40,14 @@ class Tweet:
         except ReferenceError as e:
             raise ReferenceError(e.strerror)
 
-        return self.remove_non_ascii2(text)
+        return self.remove_non_ascii(text)
 
+    """
+        Returns timestamp from the tweet
+        Supported two ways of timestamp extraction
+        - From the "created_at" field
+        - From the "timestamp_ms" field
+    """
     def get_timestamp(self):
         if self._tweet != None:
             if "created_at" in self._tweet.keys():
@@ -43,17 +61,24 @@ class Tweet:
         else:
             raise ReferenceError("Tweet is not initialized")
 
+    """
+        Each tag entry is a dictionary type. Only returns the TAG itself
+        This function also cleans the hashtag and convert to lower case
+    """
     def extract_tags(self, tags_array):
         result = []
 
         for tag in tags_array:
             if "text" in tag.keys():
-                tag_clean = self.remove_non_ascii2(tag["text"]).strip()
+                tag_clean = self.remove_non_ascii(tag["text"]).strip()
                 if len(tag_clean) != 0:
                     result.append(tag["text"].lower())
 
         return result
 
+    """
+        This function extract hashtags from the tweet
+    """
     def get_hashtags(self):
         if (self._tweet != None):
             if "entities" in self._tweet.keys():
@@ -67,6 +92,9 @@ class Tweet:
         else:
             raise ReferenceError("Tweet is not initialized")
 
+    """
+        This function checks if the tweet text contains only ASCII code
+    """
     def is_tweet_ascii(self):
         text = self.get_text()
 
@@ -78,11 +106,11 @@ class Tweet:
             return True
 
     def remove_non_ascii(self, text):
-        return ''.join(i if ord(i) < 128 else '*' for i in text)
-
-    def remove_non_ascii2(self, text):
         return re.sub(r'[^\x00-\x7F]+','', text)
 
+    """
+        Reformatting the tweet as "clean text" + "timestamp" layout
+    """
     def to_str(self):
         tweet_msg = self.get_clean_text()
         tweet_ts  = self.get_timestamp()

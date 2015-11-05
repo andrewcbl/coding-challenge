@@ -179,6 +179,7 @@ class tweet_graph:
     def get_timestamps(self):
         return self.timestamps
 
+    # This function computes the average degree for the graph
     def average_degree(self):
         degree = 0
         vertices = self.get_vertices()
@@ -190,6 +191,23 @@ class tweet_graph:
             return 0
         else:
             return (degree * 1.0 / len(vertices))
+
+    # This function computes the peak degree for the graph
+    # as well as finding the peak node 
+    def peak_degree(self):
+        pd = 0
+        pn = ""
+
+        vertices = self.get_vertices()
+
+        for vertex in vertices:
+            cur_degree = self.verts[vertex].get_degree()
+
+            if cur_degree > pd:
+                pd = cur_degree
+                pn = self.verts[vert].get_id()
+
+        return (pd, pn) 
 
     def __iter__(self):
         return iter(self.verts.values())

@@ -9,13 +9,21 @@ from tweet_graph import tweet_vertex, tweet_graph
 class hashtag_analyzer:
     def __init__(self):
         self.format = "%a %b %d %H:%M:%S +0000 %Y"
-        self.input_file  = None
-        self.output_file = None
+        self.input_file   = None
+        self.output_file  = None
+        self.tracker_en   = False
         
     def __init__(self, input_file, output_file):
         self.format = "%a %b %d %H:%M:%S +0000 %Y"
-        self.input_file  = input_file
-        self.output_file = output_file
+        self.input_file   = input_file
+        self.output_file  = output_file
+        self.tracker_en   = False
+
+    def set_track(self, enable):
+        self.tracker_en = enable
+        self.ad_tracker = []  # Average degree tracker
+        self.pd_tracker = []  # Peak degree tracker
+        self.pn_tracker = []  # Peak node tracker
 
     """
         Generate pairwise list of tuples from the list of hashtags
@@ -55,6 +63,8 @@ class hashtag_analyzer:
         
                 cur_tweet = Tweet(tweet_dec)
                 hashtags = cur_tweet.get_hashtags()
+
+                print hashtags
         
                 cur_ts = datetime.strptime(cur_tweet.get_timestamp(), self.format)
         
@@ -72,10 +82,14 @@ class hashtag_analyzer:
                 else:
                     graph.evict(cur_ts)
         
-#                print "New graph looks like:"
-#                graph.print_graph()
-#                print "\n"
-                stats_fh.write(("%0.2f" % graph.average_degree()) + "\n")
+                av_degree = graph.average_degree()
+                stats_fh.write(("%0.2f" % av_degree) + "\n")
+
+                if self.tracker_en:
+                    self.ad_tracker.append(av_degree)
+                    (peak_degree, peak_node) = graph.peak_degree()
+                    self.pd_tracker.append(peak_degree)
+                    self.pn_tracker.append(peak_node)
     
             tweet_fh.close()
 

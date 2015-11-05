@@ -28,6 +28,7 @@ class Tweet:
         else:
             raise ReferenceError("Tweet is not initialized")
 
+
     """
         Returns cleaned text in the tweet
         Text cleaning mechanism: Remove non ascii characters from the text 
@@ -40,7 +41,9 @@ class Tweet:
         except ReferenceError as e:
             raise ReferenceError(e.strerror)
 
-        return self.remove_non_ascii(text)
+        text = self.remove_non_ascii(text)
+        return self.replace_escape_seq(text)
+
 
     """
         Returns timestamp from the tweet
@@ -71,8 +74,9 @@ class Tweet:
         for tag in tags_array:
             if "text" in tag.keys():
                 tag_clean = self.remove_non_ascii(tag["text"]).strip()
+                tag_clean = self.replace_escape_seq(tag_clean)
                 if len(tag_clean) != 0:
-                    result.append(tag["text"].lower())
+                    result.append(tag_clean.lower())
 
         return result
 
@@ -107,6 +111,11 @@ class Tweet:
 
     def remove_non_ascii(self, text):
         return re.sub(r'[^\x00-\x7F]+','', text)
+
+    def replace_escape_seq(self, text):
+        str = re.sub(r'\n', ' ', text)
+        str = re.sub(r'\t', ' ', str)
+        return str
 
     """
         Reformatting the tweet as "clean text" + "timestamp" layout

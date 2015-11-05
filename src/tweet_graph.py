@@ -31,6 +31,8 @@ class tweet_vertex:
     """
         Add neighbor to the current vertex's neighbor list. Also record
         the timestamp when it is added
+        If the neighbor already exists, don't create new connection, but 
+        just add the new timestamp to the list
     """
     def add_neighbor(self, nbr, timestamp):
         if nbr in self.connected_to.keys():
@@ -40,6 +42,13 @@ class tweet_vertex:
 
     def get_connections(self):
         return self.connected_to.keys()
+
+    # Only used for testing purpose for now
+    def get_timestamp(self, nbr):
+        if nbr in self.connected_to.keys():
+            return self.connected_to[nbr]
+        else:
+            return None
 
     def get_id(self):
         return self.id
@@ -167,6 +176,9 @@ class tweet_graph:
     def get_vertices(self):
         return self.verts.keys()
 
+    def get_timestamps(self):
+        return self.timestamps
+
     def average_degree(self):
         degree = 0
         vertices = self.get_vertices()
@@ -177,7 +189,7 @@ class tweet_graph:
         if (len(vertices) == 0):
             return 0
         else:
-            return "%0.2f" % (degree * 1.0 / len(vertices))
+            return (degree * 1.0 / len(vertices))
 
     def __iter__(self):
         return iter(self.verts.values())

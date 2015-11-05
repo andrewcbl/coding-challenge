@@ -80,7 +80,7 @@ class hashtag_analyzer:
 #                print "New graph looks like:"
 #                graph.print_graph()
 #                print "\n"
-                stats_fh.write(str(graph.average_degree()) + "\n")
+                stats_fh.write(("%0.2f" % graph.average_degree()) + "\n")
     
             tweet_fh.close()
 

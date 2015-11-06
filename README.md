@@ -18,6 +18,11 @@ This solution implementation has 3 major parts:
 
 		python ./src/hashtag_plots.py ./tweet_input/tweets.txt ./tweet_output/ft3.txt
 
+
+	Sample Average Degree Trend diagram
+		![average-tweet-hashtag-degree](images/average_tweet_hashtag_degree.png)
+
+
 3. Unit testing for the two feature
 	For the tweet cleaning feature, execute the following test program:
 

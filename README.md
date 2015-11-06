@@ -51,25 +51,25 @@ This solution depends on the following packages:
 <pre>
 +-----------------------------------
 +-src
-|  +---- average_degree.py
+|  +---- average_degree.py     (The top module for the second feature)
 |  |
-|  +---- hashtag_analyzer.py
+|  +---- hashtag_analyzer.py   (The hashtag analyzer class, parses tweeets and tracks graph degrees)
 |  |
-|  +---- hashtag_plots.py
+|  +---- hashtag_plots.py      (Top module to create the hashtag trend graph)
 |  |
-|  +---- tweet_graph.py
+|  +---- tweet_graph.py        (Implementation of tweet_vertex and tweet_graph classes)
 |  |
-|  +---- tweet.py
+|  +---- tweet.py              (Implementation of tweet class, text cleaning, extract hashtag etc)
 |  |
-|  +---- tweets_clean.py
+|  +---- tweets_clean.py       (The top module for the first feature)
 |
 +-test
 |  |
-|  +---- env.py
+|  +---- env.py                (Setup file for the test to get the classes in src/ dir)
 |  |
-|  +---- test_tweet_graph.py
+|  +---- test_tweet_graph.py   (Unit test program for classes in tweet_graph.py)
 |  |
-|  +---- test_tweet.py
+|  +---- test_tweet.py         (Unit test program for classes in tweet.py)
 +-----------------------------------
 </pre>
 

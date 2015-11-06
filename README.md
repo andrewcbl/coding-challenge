@@ -4,6 +4,7 @@ For this coding challenge, you will develop tools that could help analyze the co
 
 ## Quick Guide to the solution
 
+<pre>
 This solution implementation has 3 major parts:
 
 1. Basic feature implementation required by the coding challenge. 
@@ -29,6 +30,7 @@ python -m test.test_tweet
 
 For the tweet graph feature unit testing, execute the following program:
 python -m test.test_tweet_graph
+</pre>
 
 
 ## Challenge Summary

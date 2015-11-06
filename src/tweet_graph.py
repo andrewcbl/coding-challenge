@@ -205,7 +205,7 @@ class tweet_graph:
 
             if cur_degree > pd:
                 pd = cur_degree
-                pn = self.verts[vert].get_id()
+                pn = self.verts[vertex].get_id()
 
         return (pd, pn) 
 

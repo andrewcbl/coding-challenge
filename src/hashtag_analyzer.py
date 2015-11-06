@@ -58,16 +58,16 @@ class hashtag_analyzer:
             for tweet_line in tweets:
                 tweet_dec = json.loads(tweet_line)
         
+                # Ignore tweets with "limit"
                 if "limit" in tweet_dec.keys():
                     continue
         
                 cur_tweet = Tweet(tweet_dec)
                 hashtags = cur_tweet.get_hashtags()
 
-                print hashtags
-        
                 cur_ts = datetime.strptime(cur_tweet.get_timestamp(), self.format)
         
+                # Ignore tweets with one or zero hashtags
                 if (len(hashtags) >= 2):
                     for hashtag in hashtags:
                         graph.add_vertex(hashtag, cur_ts)
@@ -96,3 +96,12 @@ class hashtag_analyzer:
         if not stats_fh.closed:
             stats_fh.close()
 
+
+    def get_ad_hist(self):
+        return self.ad_tracker
+
+    def get_pd_hist(self):
+        return self.pd_tracker
+
+    def get_pn_hist(self):
+        return self.pn_tracker

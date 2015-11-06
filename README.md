@@ -4,27 +4,25 @@ For this coding challenge, you will develop tools that could help analyze the co
 
 ## Quick Guide to the solution
 
-<pre>
 This solution implementation has 3 major parts:
 
 1. Basic feature implementation required by the coding challenge. 
-
+<pre>
 The commands to run to get the solutions:
 
 python ./src/tweets_cleaned.py ./tweet_input/tweets.txt ./tweet_output/ft1.txt
 python ./src/average_degree.py ./tweet_input/tweets.txt ./tweet_output/ft2.txt
-
-
+</pre>
 2. Visualization of hashtag graph degree trend
-
+<pre>
 If user want to visuallize the trend of hashtag average and peak degree. It also prints the statistics of how many times one hashtag be the one with most connections
 
 The command to run to get the solution:
 
 python ./src/hashtag_plots.py ./tweet_input/tweets.txt ./tweet_output/ft3.txt
-
-
+</pre>
 3. Unit testing for the two feature
+<pre>
 For the tweet cleaning feature, execute the following test program:
 python -m test.test_tweet
 

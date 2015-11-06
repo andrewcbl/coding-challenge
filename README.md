@@ -3,7 +3,7 @@ Insight Data Engineering - Coding Challenge
 For this coding challenge, you will develop tools that could help analyze the community of Twitter users.  For simplicity, the features we will build are primitive, but you could easily build more complicated features on top of these.   
 
 ## Quick Guide to the solution
-### This solution implementation has 3 major parts:
+### This solution implementation contains 3 major parts:
 
 1. Basic feature implementation required by the coding challenge.
 	The commands to run to get the solutions:
@@ -34,6 +34,42 @@ For this coding challenge, you will develop tools that could help analyze the co
 	For the tweet graph feature unit testing, execute the following program:
 
 		python -m test.test_tweet_graph
+
+
+### Python package dependency:
+
+This solution depends on the following packages:
+- json
+- unittest
+- matplotlib
+- re
+- datetime
+- time
+
+
+### File structure:
++-----------------------------------
++-src
+|  +---- average_degree.py
+|  |
+|  +---- hashtag_analyzer.py
+|  |
+|  +---- hashtag_plots.py
+|  |
+|  +---- tweet_graph.py
+|  |
+|  +---- tweet.py
+|  |
+|  +---- tweets_clean.py
+|
++-test
+|  |
+|  +---- env.py
+|  |
+|  +---- test_tweet_graph.py
+|  |
+|  +---- test_tweet.py
++-----------------------------------
 
 
 ## Challenge Summary

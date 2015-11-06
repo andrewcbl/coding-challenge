@@ -22,6 +22,9 @@ This solution implementation has 3 major parts:
 	Sample Average Degree Trend diagram
 		![average-tweet-hashtag-degree](images/average_tweet_hashtag_degree.png)
 
+	Sample Peak Degree Trend diagram
+		![peak-tweet-hashtag-degree](images/peak_tweet_hashtag_degree.png)
+
 
 3. Unit testing for the two feature
 	For the tweet cleaning feature, execute the following test program:

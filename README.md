@@ -16,13 +16,15 @@ This solution implementation has 3 major parts:
 
 	The command to run to get the solution:
 
-	python ./src/hashtag_plots.py ./tweet_input/tweets.txt ./tweet_output/ft3.txt
+		python ./src/hashtag_plots.py ./tweet_input/tweets.txt ./tweet_output/ft3.txt
 
 3. Unit testing for the two feature
 	For the tweet cleaning feature, execute the following test program:
+
 		python -m test.test_tweet
 
 	For the tweet graph feature unit testing, execute the following program:
+
 		python -m test.test_tweet_graph
 
 

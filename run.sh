@@ -7,6 +7,8 @@
 #+----------------------------------------------------------------------+
 # I'll execute my programs, with the input directory tweet_input and 
 # output the files in the directory tweet_output
+# User can also turn on some self checking by appending the command with 
+# parameter "1". Run time will be longer with the feature
 python ./src/tweets_cleaned.py ./tweet_input/tweets.txt ./tweet_output/ft1.txt
 python ./src/average_degree.py ./tweet_input/tweets.txt ./tweet_output/ft2.txt
 

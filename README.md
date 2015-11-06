@@ -67,9 +67,9 @@ This solution depends on the following packages:
 |  |
 |  +---- env.py                (Setup file for the test to get the classes in src/ dir)
 |  |
-|  +---- test_tweet_graph.py   (Unit test program for classes in tweet_graph.py)
+|  +---- test_tweet_graph.py   (10 unit test program for classes in tweet_graph.py)
 |  |
-|  +---- test_tweet.py         (Unit test program for classes in tweet.py)
+|  +---- test_tweet.py         (3 unit test program for classes in tweet.py)
 +-----------------------------------
 </pre>
 

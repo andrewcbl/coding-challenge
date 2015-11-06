@@ -90,6 +90,21 @@ class tweet_vertex:
 
         return result
 
+    # This function checks if all the timestamp in all neighbors 
+    # are within 60s of the timestamp when check is raised
+    def check_vertex(self, timestamp):
+        if self.get_degree() <= 0:
+            return False
+
+        for node in self.connected_to.keys():
+            all_ts = self.connected_to[node]
+
+            if not all((timestamp - cts) <= self.window for cts in all_ts):
+                return false
+
+        return True
+
+
 """
     This class represent tweet hashtag graph
     - It supports vertex/edge add/removal
@@ -208,6 +223,23 @@ class tweet_graph:
                 pn = self.verts[vertex].get_id()
 
         return (pd, pn) 
+
+    # This functions check two aspects:
+    # Whether all the keys in the timestamps are within 60 seconds of timestamp
+    # Whether all the vertexes in the graph has timestamps within 60 seconds of timestamp
+    # This function should only be called after add_vertex or evict functions
+    def check_graph(self, timestamp):
+        for ts in self.timestamps:
+            if timestamp - ts > self.window:
+                return False
+
+        vertices = self.get_vertices()
+
+        for vertex in vertices:
+            if self.verts[vertex].check_vertex(timestamp) == False:
+                return False
+
+        return True
 
     def __iter__(self):
         return iter(self.verts.values())

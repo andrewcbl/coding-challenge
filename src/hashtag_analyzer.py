@@ -12,12 +12,17 @@ class hashtag_analyzer:
         self.input_file   = None
         self.output_file  = None
         self.tracker_en   = False
+        self.self_checking = False
         
     def __init__(self, input_file, output_file):
         self.format = "%a %b %d %H:%M:%S +0000 %Y"
         self.input_file   = input_file
         self.output_file  = output_file
         self.tracker_en   = False
+        self.self_checking = False
+
+    def set_self_check(self, enable):
+        self.self_checking = enable
 
     def set_track(self, enable):
         self.tracker_en = enable
@@ -68,6 +73,7 @@ class hashtag_analyzer:
                 cur_ts = datetime.strptime(cur_tweet.get_timestamp(), self.format)
         
                 # Ignore tweets with one or zero hashtags
+                # It will only be used to evict old tweets from the graph
                 if (len(hashtags) >= 2):
                     for hashtag in hashtags:
                         graph.add_vertex(hashtag, cur_ts)
@@ -90,6 +96,10 @@ class hashtag_analyzer:
                     (peak_degree, peak_node) = graph.peak_degree()
                     self.pd_tracker.append(peak_degree)
                     self.pn_tracker.append(peak_node)
+
+                if self.self_checking:
+                    if not graph.check_graph(cur_ts):
+                        print "Self Checking Failed at " + str(cur_ts)
     
             tweet_fh.close()
 

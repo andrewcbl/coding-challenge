@@ -85,7 +85,7 @@ class tweet_cleaner:
 def main():
     cleaner = tweet_cleaner(sys.argv[1], sys.argv[2])
 
-    if len(sys.argv) > 2:
+    if len(sys.argv) > 3:
         cleaner.set_self_check(int(sys.argv[3]))
 
     cleaner.clean_tweets()

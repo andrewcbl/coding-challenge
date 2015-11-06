@@ -48,6 +48,7 @@ This solution depends on the following packages:
 
 
 ### File structure:
+<pre>
 +-----------------------------------
 +-src
 |  +---- average_degree.py
@@ -70,6 +71,7 @@ This solution depends on the following packages:
 |  |
 |  +---- test_tweet.py
 +-----------------------------------
+</pre>
 
 
 ## Challenge Summary
